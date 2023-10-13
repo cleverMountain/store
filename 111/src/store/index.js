@@ -1,9 +1,10 @@
-import { createStore } from 'vuex'
+import { createStore } from '../../../vuex.esm-browser'
 
-debugger
+
 export default createStore({
   state: {
-    age: 1
+    age: 1,
+    age2: 2
   },
   getters: {
     age(state) {
@@ -13,15 +14,19 @@ export default createStore({
   // 唯一修改状态的地方
   mutations: {
     add(state, payload) {
-
       state.age += payload
+    },
+    add2(state, payload) {
+
+      state.age2 += payload
     }
   },
   actions: {
-    add({ commit }, payload) {
-
+    add1({ commit }, payload) {
+      console.log(this)
       setTimeout(() => {
-        commit.call(this, 'add', payload)
+
+        commit('add2', payload)
       }, 1000)
     }
   },
@@ -38,9 +43,12 @@ export default createStore({
         }
       },
       actions: {
-        add({ commit }, payload) {
+        add1({ commit }, payload) {
+
+          let that = this
+          console.log(this)
           setTimeout(() => {
-            commit('add', payload)
+            commit.call(that, 'add', payload)
           }, 1000)
         }
       },
@@ -52,6 +60,7 @@ export default createStore({
           },
           mutations: {
             add(state, payload) {
+
               state.age += payload
             }
           },

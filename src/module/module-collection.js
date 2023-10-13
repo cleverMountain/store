@@ -37,6 +37,7 @@ export default class ModuleCollection {
       const parent = this.get(path.slice(0, -1))
       parent.addChild(path[path.length - 1], newModule)
     }
+console.log(root)
 
     // register nested modules
     if (rawModule.modules) {

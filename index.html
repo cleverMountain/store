@@ -8,23 +8,28 @@
   <title>Document</title>
 
 </head>
+<div id="d"></div>
+<button id="dispatch">dispatch</button>
 
 <body>
   <script type="module">
     import { createStore } from "./index.js"
+    import persistedState from "./plugin/persistedState.js"
     const option = {
       state: {
         age: 1,
-        age2: 2
+        age2: 1
       },
       getters: {
         age(state) {
+
           return state.age + 2
         }
       },
       // 唯一修改状态的地方
       mutations: {
         add(state, payload) {
+
           state.age += payload
         },
         add2(state, payload) {
@@ -34,9 +39,9 @@
       },
       actions: {
         add1({ commit }, payload) {
+
           console.log(this)
           setTimeout(() => {
-
             commit('add2', payload)
           }, 1000)
         }
@@ -85,10 +90,17 @@
             }
           }
         }
-      }
+      },
+      plugins: [persistedState] // 插件机制，都是函数
     }
     const store = createStore(option)
-    console.log(store)
+    const dispatch = document.getElementById('dispatch')
+    dispatch.addEventListener('click', () => {
+      store.dispatch('add1', 2)
+      console.log(store)
+      setTimeout(() => { })
+      document.getElementById('d').innerHTML = store.state.age
+    }, 3000)
   </script>
 </body>
 
